@@ -53,5 +53,8 @@ def imports():
 
 def tests():
     """ Make these Unittests for each function. """
-    tests_list = ['assertNotEqual', 'assertEqual']
+    tests_list = [
+        'assertNotEqual',
+        'assertEqual'
+        ]
     return tests_list
