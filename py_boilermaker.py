@@ -60,7 +60,7 @@ class Boilerplate(object):
 
     def __init__(self):
         self.function_defs = None
-        self.args = ARGS
+        self.args = add_arguments()
         self._file = None
         self.tests = None
         self.imports = None
