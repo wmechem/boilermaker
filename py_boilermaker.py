@@ -36,7 +36,7 @@ def add_arguments():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--user", help="Specify user name",
-                        default='wmechem@gmail.com')
+                        default='someuser@somedomain.com')
     parser.add_argument("--name", help="Specify module name",
                         default='test.py')
     parser.add_argument("--date", help="Optional create or modify date",
