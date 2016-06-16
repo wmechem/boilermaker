@@ -1,11 +1,13 @@
 """ Builds a skeleton python program file
-w. mechem 6/8/2016
+w. mechem 6/8/2016, 6/16/2016
 pylint 6/15/2016
-flake8
+flake8 6/15/2016
 
-Usage: py_boilermaker.py --name 'module_name.py' --imports --main --tests
+TO DO: Make generation of functions and classes conditional on args --functions --classes
 
-Defaults are to NOT INCLUDE import statements, main function, or tests.
+Usage: py_boilermaker.py --name 'module_name.py' --imports --main --tests --comments
+
+Defaults are to NOT INCLUDE import statements, main function, tests or comments.
 
 Copyright 2016 Willard H. Mechem, III
 
@@ -25,9 +27,7 @@ Copyright 2016 Willard H. Mechem, III
 from datetime import datetime
 import argparse
 
-from template import function_definitions, imports, tests
-
-ARGS = None
+from template import function_definitions, class_definitions, imports, tests
 
 
 def add_arguments():
@@ -49,6 +49,12 @@ def add_arguments():
                         action='store_true')
     parser.add_argument("--main", help="Generate main()",
                         action='store_true')
+    parser.add_argument("--classes", help="Generate classes()",
+                        action='store_false')
+    parser.add_argument("--functions", help="Generate functions()",
+                        action='store_false')
+    parser.add_argument("--comments", help="Generate comments()",
+                        action='store_true')
 
     args = parser.parse_args()
 
@@ -60,6 +66,7 @@ class Boilerplate(object):
 
     def __init__(self):
         self.function_defs = None
+        self.class_defs = None
         self.args = add_arguments()
         self._file = None
         self.tests = None
@@ -95,12 +102,12 @@ class Boilerplate(object):
             out_file.write(text)
         return
 
-    def gen_sections(self):
+    def gen_functions(self):
         """ Generate boilerplate for function definitions. """
 
         self.function_defs = function_definitions()
 
-        def gen_section_text(name, params):
+        def gen_function_text(name, params):
             """ Generate each line for function definitions. """
             print(name, params)
             section_text = ''
@@ -108,13 +115,11 @@ class Boilerplate(object):
             section_text += 'def '
             section_text += name + '(' + params + '):' + self.line_ret
             section_text += ' ' * 4
-            section_text += '""" Doc string for ' + name + '. """'
+            section_text += '""" Doc string for function' + name + '. """'
             section_text += self.line_ret
+
             section_text += ' ' * 4
-            section_text += 'pass'
-            section_text += self.line_ret
-            section_text += ' ' * 4
-            section_text += 'return out_param'
+            section_text += 'return'
             section_text += self.line_ret
 
             self.write_to_file(section_text)
@@ -126,9 +131,52 @@ class Boilerplate(object):
             params = ", ".join(function_def['params'])
             print(function_name, params)
 
-            gen_section_text(function_name, params)
+            gen_function_text(function_name, params)
 
         return
+
+    def gen_classes(self):
+        """ Generate class definitions. """
+
+        self.class_defs = class_definitions()
+
+        def gen_class_text(name, params_string, params_list):
+            """ Generate text for class definitions and init params. """
+
+            class_text = self.line_ret * 2
+            class_text += 'class '
+            class_text += name.title() + '(object):' + self.line_ret
+            class_text += ' ' * 4
+            class_text += '""" Doc string for class ' + name.title() + '. """'
+            class_text += self.line_ret
+            class_text += ' ' * 4
+            class_text += 'def '
+            class_text += '__init__(self, ' + params_string + '):'
+            class_text += self.line_ret
+
+            for param in params_list:
+                class_text += ' ' * 8
+                class_text += 'self.' + str(param) + ' = ' + str(param)
+                class_text += self.line_ret
+
+            class_text += self.line_ret
+            class_text += ' ' * 4
+            class_text += 'def __str__(self, cls):'
+            class_text += self.line_ret
+            class_text += ' ' * 8
+            class_text += 'return str(cls.__class__.__name__)'
+
+            self.write_to_file(class_text)
+
+        for class_def in self.class_defs:
+            class_name = class_def['name']
+            params_string = ", ".join(class_def['params'])
+            params_list = class_def['params']
+            print(class_name, params_string)
+
+            gen_class_text(class_name, params_string, params_list)
+
+
 
     def gen_tests(self):
         """ Generate boilerplate for function definitions. """
@@ -151,10 +199,10 @@ class Boilerplate(object):
             else:
                 class_name = function_name.title()
 
-            test_text = ''
-            test_text += self.line_ret * 2
+            test_text = self.line_ret * 2
             test_text += 'class Test' + class_name
-            test_text += 'NotEqual(unittest.TestCase):'
+            test_text += test_name
+            test_text += '(unittest.TestCase):'
             test_text += self.line_ret
             test_text += ' ' * 4
             test_text += '""" Unittest """' + self.line_ret
@@ -224,12 +272,17 @@ def main():
     arguments = add_arguments()
     boilerplate = Boilerplate()
 
-    boilerplate.gen_comments()
+    if arguments.comments is not False:
+        boilerplate.gen_comments()
 
     if arguments.imports is not False:
         boilerplate.gen_imports()
 
-    boilerplate.gen_sections()
+    #if arguments.functions is not False:
+    boilerplate.gen_functions()
+
+    #if arguments.classes is False:
+    boilerplate.gen_classes()
 
     if arguments.tests is not False:
         boilerplate.gen_tests()

@@ -1,6 +1,6 @@
 """
 w.mechem
-6/10/2016
+6/10/2016, 6/16/2016
 Config module to define function names, imports, and tests
 that are imported by boilermaker.py
 pylint 10/10 6/10/2016
@@ -41,6 +41,22 @@ def function_definitions():
 
     return function_defs
 
+
+def class_definitions():
+    """ Make class definitions for these class names and paramters
+    i.e., [dict(name='name', params=('a','b')),]
+    """
+
+    class_defs = [
+        dict(name='DbAdapter',
+             params=('host', 'database', 'port')),
+        dict(name='Person',
+             params=('last_name', 'first_name', 'street', 'city', 'state', 'zipcode')),
+        dict(name='Organization',
+             params=('name', 'industry', 'revenues', 'employees', 'ticker'))
+        ]
+
+    return class_defs
 
 def imports():
     """ Make import statements for these modules. """
