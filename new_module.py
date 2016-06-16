@@ -1,7 +1,7 @@
 """
 new_module.py
 someuser@somedomain.com
-2016-06-16 10:43:44.611795
+2016-06-16 13:01:02.543783
 Test Module Boilerplate
 """
 import io
@@ -9,30 +9,61 @@ import unittest
 
 
 def open_file(file_name, mode, encoding):
-    """ Doc string for open_file. """
-    pass
-    return out_param
+    """ Doc string for functionopen_file. """
+    return
 
 
 def read_file(file_name, mode, encoding):
-    """ Doc string for read_file. """
-    pass
-    return out_param
+    """ Doc string for functionread_file. """
+    return
 
 
 def parse_text(text):
-    """ Doc string for parse_text. """
-    pass
-    return out_param
+    """ Doc string for functionparse_text. """
+    return
 
 
 def write_to_db(db_name, table_name):
-    """ Doc string for write_to_db. """
-    pass
-    return out_param
+    """ Doc string for functionwrite_to_db. """
+    return
 
 
-class TestOpenFileNotEqual(unittest.TestCase):
+class Dbadapter(object):
+    """ Doc string for class Dbadapter. """
+    def __init__(self, host, database, port):
+        self.host = host
+        self.database = database
+        self.port = port
+
+    def __str__(self, cls):
+        return str(cls.__class__.__name__)
+
+class Person(object):
+    """ Doc string for class Person. """
+    def __init__(self, last_name, first_name, street, city, state, zipcode):
+        self.last_name = last_name
+        self.first_name = first_name
+        self.street = street
+        self.city = city
+        self.state = state
+        self.zipcode = zipcode
+
+    def __str__(self, cls):
+        return str(cls.__class__.__name__)
+
+class Organization(object):
+    """ Doc string for class Organization. """
+    def __init__(self, name, industry, revenues, employees, ticker):
+        self.name = name
+        self.industry = industry
+        self.revenues = revenues
+        self.employees = employees
+        self.ticker = ticker
+
+    def __str__(self, cls):
+        return str(cls.__class__.__name__)
+
+class TestOpenFileassertNotEqual(unittest.TestCase):
     """ Unittest """
     # pylint: disable=R0904
     def setUp(self):
@@ -44,7 +75,7 @@ class TestOpenFileNotEqual(unittest.TestCase):
         assertNotEqual(self.results, open_file(self.test_data))
 
 
-class TestOpenFileNotEqual(unittest.TestCase):
+class TestOpenFileassertEqual(unittest.TestCase):
     """ Unittest """
     # pylint: disable=R0904
     def setUp(self):
@@ -56,7 +87,7 @@ class TestOpenFileNotEqual(unittest.TestCase):
         assertEqual(self.results, open_file(self.test_data))
 
 
-class TestReadFileNotEqual(unittest.TestCase):
+class TestReadFileassertNotEqual(unittest.TestCase):
     """ Unittest """
     # pylint: disable=R0904
     def setUp(self):
@@ -68,7 +99,7 @@ class TestReadFileNotEqual(unittest.TestCase):
         assertNotEqual(self.results, read_file(self.test_data))
 
 
-class TestReadFileNotEqual(unittest.TestCase):
+class TestReadFileassertEqual(unittest.TestCase):
     """ Unittest """
     # pylint: disable=R0904
     def setUp(self):
@@ -80,7 +111,7 @@ class TestReadFileNotEqual(unittest.TestCase):
         assertEqual(self.results, read_file(self.test_data))
 
 
-class TestParseTexTNotEqual(unittest.TestCase):
+class TestParseTexTassertNotEqual(unittest.TestCase):
     """ Unittest """
     # pylint: disable=R0904
     def setUp(self):
@@ -92,7 +123,7 @@ class TestParseTexTNotEqual(unittest.TestCase):
         assertNotEqual(self.results, parse_text(self.test_data))
 
 
-class TestParseTexTNotEqual(unittest.TestCase):
+class TestParseTexTassertEqual(unittest.TestCase):
     """ Unittest """
     # pylint: disable=R0904
     def setUp(self):
@@ -104,7 +135,7 @@ class TestParseTexTNotEqual(unittest.TestCase):
         assertEqual(self.results, parse_text(self.test_data))
 
 
-class TestWriTeTodbNotEqual(unittest.TestCase):
+class TestWriTeTodbassertNotEqual(unittest.TestCase):
     """ Unittest """
     # pylint: disable=R0904
     def setUp(self):
@@ -116,7 +147,7 @@ class TestWriTeTodbNotEqual(unittest.TestCase):
         assertNotEqual(self.results, write_to_db(self.test_data))
 
 
-class TestWriTeTodbNotEqual(unittest.TestCase):
+class TestWriTeTodbassertEqual(unittest.TestCase):
     """ Unittest """
     # pylint: disable=R0904
     def setUp(self):
